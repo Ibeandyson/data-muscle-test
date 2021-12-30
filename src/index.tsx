@@ -5,11 +5,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Provider as UserProvider } from "./context/userStore";
+import { Provider as CreateIdProvider } from "./context/createIdStore";
 
 ReactDOM.render(
   <React.StrictMode>
     <UserProvider>
-      <App />
+      <CreateIdProvider>
+        <App />
+      </CreateIdProvider>
     </UserProvider>
   </React.StrictMode>,
   document.getElementById("root")

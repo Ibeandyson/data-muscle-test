@@ -1,8 +1,9 @@
-import  Store  from './Store';
+import Store from './Store';
 
 const initial_state = {
     loading: false,
-    addUserModal: false
+    addUserModal: false,
+    usersData: []
 };
 
 const reducer = (state: any, action: any) => {
@@ -18,6 +19,11 @@ const reducer = (state: any, action: any) => {
                 ...state,
                 addUserModal: action.payload,
             };
+        case actions.GET_ALL_USERS:
+            return {
+                ...state,
+                usersData: action.payload,
+            };
         default:
             return state;
     }
@@ -31,4 +37,5 @@ export const { Provider, useStore, useDispatch } = Store(
 export const actions = {
     LOADING: 'LOADING',
     ADD_USER_MODAL: 'ADD_USER_MODAL',
+    GET_ALL_USERS: 'GET_ALL_USERS',
 };

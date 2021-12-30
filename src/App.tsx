@@ -1,17 +1,32 @@
-import { useState } from "react";
-import logo from "./logo.svg";
+import { useState, useEffect } from "react";
 import "./App.css";
-import { SelectInput, Input, BuldingsCardList, AddUserModal } from "./components";
+import {
+  SelectInput,
+  BuldingsCardList,
+  AddUserModal,
+} from "./components";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import useUser from "./hooks/useUser";
+import useCreateId from "./hooks/useCreateId";
 
 
 const App = () => {
+  const { createId } = useCreateId();
   const [state, setState] = useState("");
-  const { addUserModal } = useUser();
-  const openModal  = () => {
-    addUserModal(true)
-  }
+  const { addUserModal, getAllUsers, userData } = useUser();
+
+  const openModal = () => {
+    addUserModal(true);
+    createId();
+  };
+  
+console.log(userData)
+
+  useEffect(() => {
+    getAllUsers()
+  }, [])
+
+
   return (
     <div className="page">
       <Container>
@@ -21,10 +36,16 @@ const App = () => {
             name="user"
             value={state}
             placeholder="Select User"
-            data={[
-              { id: 1, name: "uche" },
-              { id: 2, name: "joy" },
-            ]}
+            children={
+              <>
+                <option hidden>Select User</option>
+                {userData?.map((data: any) => (
+                  <option key={data.id} value={data.id}>
+                    {data.firstName} {data.lastName}
+                  </option>
+                ))}
+              </>
+            }
             onChangeValue={(e: any) => setState(e.target.value)}
           />
           <Button
@@ -52,9 +73,9 @@ const App = () => {
           </Col>
         </Row>
       </Container>
-      <AddUserModal/>
+      <AddUserModal />
     </div>
   );
-}
+};
 
 export default App;
