@@ -3,17 +3,20 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import App from "./App";
+import { ToastProvider } from "react-toast-notifications"
 import reportWebVitals from "./reportWebVitals";
 import { Provider as UserProvider } from "./context/userStore";
 import { Provider as CreateIdProvider } from "./context/createIdStore";
 
 ReactDOM.render(
   <React.StrictMode>
+    <ToastProvider>
     <UserProvider>
       <CreateIdProvider>
         <App />
       </CreateIdProvider>
     </UserProvider>
+    </ToastProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

@@ -25,9 +25,8 @@ const useUser = () => {
         } else {
             localStorage.setItem("userData", JSON.stringify(newData))
         }
-        setTimeout(() => dispatch({ type: actions.LOADING, payload: false }), 5000)
-        setTimeout(() => useShowNotify("User added successfully", "success"), 5000)
-
+        setTimeout(() => dispatch({ type: actions.LOADING, payload: false }), 3000)
+        setTimeout(() => useShowNotify("User added successfully", "success"), 3000)
     }
 
     //func to get all  user from loacl storage
@@ -37,14 +36,24 @@ const useUser = () => {
         dispatch({ type: actions.GET_ALL_USERS, payload: userData })
     }
 
+    //func to get a singel user buildings
+    const getSingelUserBuilding = (id: string) => {
+        dispatch({ type: actions.LOADING, payload: true })
+        let storageData: any = localStorage.getItem('userData')
+        let usersData: any = JSON.parse(storageData)
+        usersData.map((data: any) => (id === data.id ? dispatch({ type: actions.GET_SINGEL_USER, payload: data }) : null));
+        setTimeout(() => dispatch({ type: actions.LOADING, payload: false }), 3000)
+    }
 
     return {
         addUserModal,
         addUserToStorage,
         getAllUsers,
+        getSingelUserBuilding,
         loading: store.loading,
         userData: store.usersData,
         addUserModalState: store.addUserModal,
+        singelUserData: store.singelUserData,
     }
 }
 export default useUser

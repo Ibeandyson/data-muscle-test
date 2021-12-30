@@ -13,19 +13,21 @@ import useCreateId from "./hooks/useCreateId";
 const App = () => {
   const { createId } = useCreateId();
   const [state, setState] = useState("");
-  const { addUserModal, getAllUsers, userData } = useUser();
+  const { addUserModal, getAllUsers, getSingelUserBuilding,  singelUserData, userData } = useUser();
 
   const openModal = () => {
     addUserModal(true);
     createId();
   };
   
-console.log(userData)
+  const onChangeHandler = (e: any) => {
+    setState(e.target.value)
+    getSingelUserBuilding(e.target.value)
+  }
 
   useEffect(() => {
     getAllUsers()
   }, [])
-
 
   return (
     <div className="page">
@@ -46,7 +48,7 @@ console.log(userData)
                 ))}
               </>
             }
-            onChangeValue={(e: any) => setState(e.target.value)}
+            onChangeValue={(e: any) => onChangeHandler(e)}
           />
           <Button
             onClick={() => openModal()}

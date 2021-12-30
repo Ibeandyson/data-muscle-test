@@ -3,7 +3,8 @@ import Store from './Store';
 const initial_state = {
     loading: false,
     addUserModal: false,
-    usersData: []
+    usersData: [],
+    singelUserData: {}
 };
 
 const reducer = (state: any, action: any) => {
@@ -24,6 +25,11 @@ const reducer = (state: any, action: any) => {
                 ...state,
                 usersData: action.payload,
             };
+        case actions.GET_SINGEL_USER:
+            return {
+                ...state,
+                singelUserData: action.payload,
+            };
         default:
             return state;
     }
@@ -38,4 +44,5 @@ export const actions = {
     LOADING: 'LOADING',
     ADD_USER_MODAL: 'ADD_USER_MODAL',
     GET_ALL_USERS: 'GET_ALL_USERS',
+    GET_SINGEL_USER: 'GET_SINGEL_USER'
 };
