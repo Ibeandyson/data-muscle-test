@@ -44,7 +44,7 @@ const BuldingsCardList = () => {
           ) : (
             <div>
               {userBuildings?.map((data: any) => (
-                <ListGroup.Item>
+                <ListGroup.Item key={data.id}>
                   <Row>
                     <Col sm="6">{data?.name}</Col>
                     <Col sm="6">
@@ -59,7 +59,7 @@ const BuldingsCardList = () => {
                           Delete
                         </Button>
                         <Button
-                          onClick={() => editBuildingModal(true, data.id)}
+                          onClick={() => editBuildingModal(true, data.id, data)}
                           variant="success"
                         >
                           Edit

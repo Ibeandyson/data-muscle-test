@@ -10,6 +10,7 @@ const initial_state = {
     usersData: [],
     singelUserData: {},
     buildings: [],
+    oneBuilding: {},
 };
 
 const reducer = (state: any, action: any) => {
@@ -60,6 +61,11 @@ const reducer = (state: any, action: any) => {
                 ...state,
                 buildings: action.payload
             };
+        case actions.GET_ONE_BUILDING:
+            return {
+                ...state,
+                oneBuilding: action.payload
+            };
         default:
             return state;
     }
@@ -79,5 +85,6 @@ export const actions = {
     ID_OF_BUILDING: 'ID_OF_BUILDING',
     GET_ALL_USERS: 'GET_ALL_USERS',
     GET_SINGEL_USER: 'GET_SINGEL_USER',
-    GET_BUILDINGS: 'GET_BUILDINGS'
+    GET_BUILDINGS: 'GET_BUILDINGS',
+    GET_ONE_BUILDING: 'GET_ONE_BUILDING',
 };

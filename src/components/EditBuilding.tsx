@@ -1,54 +1,68 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Modal, Button, Col, Row } from "react-bootstrap";
 import useUser from "../hooks/useUser";
 import useCreateId from "../hooks/useCreateId";
-import { SelectInput, Input, Loader } from "./index";
+import { SelectInput, Input } from "./index";
 import { countries } from "../global/countryList";
 
 type formProps = {
   id: string;
   name: string;
-  countery: string;
+  country: string;
 };
 
 const EditBuildingModal = () => {
   const { uid } = useCreateId();
-  const { editBuildingModalState, loading, editBuildingModal, addBuilding } =
-    useUser();
+  const {
+    editBuildingModalState,
+    idOfBuilding,
+    oneBuilding,
+    editBuildingModal,
+    editBuilding,
+  } = useUser();
 
   const [state, setState] = useState<formProps>({
     id: "",
     name: "",
-    countery: "",
+    country: "",
   });
 
   const closeModal = () => {
-    editBuildingModal(false, editBuildingModalState);
+    editBuildingModal(false, editBuildingModalState, oneBuilding);
     setState({
       id: "",
       name: "",
-      countery: "",
+      country: "",
     });
   };
 
-  const { name, countery } = state;
+  const { name, country } = state;
 
   const onChangeHandler = (e: any) => {
     setState({ ...state, [e.target.name]: e.target.value });
   };
 
   const onSubmit = () => {
-    addBuilding(state);
+    editBuilding({
+      id: idOfBuilding,
+      name: name,
+      country: country,
+    });
     closeModal();
   };
 
   useEffect(() => {
-    setState({ ...state, id: uid });
-  }, [uid]);
+    setState({
+      id: oneBuilding.id,
+      name: oneBuilding.name,
+      country: oneBuilding.country,
+    });
+  }, [oneBuilding]);
+
+
 
   return (
     <div>
-      {loading && <Loader />}
       <Modal
         show={editBuildingModalState}
         onHide={closeModal}
@@ -65,7 +79,7 @@ const EditBuildingModal = () => {
           <Row>
             <Col sm="12" md="6">
               <Input
-                lable="First Name"
+                lable="Name"
                 className="shadow-lg p-3 mb-5 bg-body rounded  border border-success"
                 name="name"
                 value={name}
@@ -77,8 +91,8 @@ const EditBuildingModal = () => {
               <SelectInput
                 lable="Country"
                 className="shadow-lg p-3 mb-5 bg-body rounded  border border-success"
-                name="countery"
-                value={countery}
+                name="country"
+                value={country}
                 placeholder="Select Country"
                 children={
                   <>

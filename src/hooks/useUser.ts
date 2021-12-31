@@ -26,15 +26,17 @@ const useUser = () => {
     }
 
       //func for opening and closing edit building modal
-      const editBuildingModal = (state: boolean, id: string) => {
+      const editBuildingModal = (state: boolean, id: string, data: object) => {
         dispatch({ type: actions.EDIT_BUILDING_MODAL, payload: state });
         dispatch({ type: actions.ID_OF_BUILDING, payload: id });
+        dispatch({ type: actions.GET_ONE_BUILDING, payload: data });
     }
 
     //func to add user to loacl storage
     const addUserToStorage = (newData: any) => {
         dispatch({ type: actions.LOADING, payload: true })
         let storageData: any = localStorage.getItem('userData')
+
         let oldData: any = JSON.parse(storageData)
         if (localStorage.getItem('userData')) {
             let savingData = oldData.concat(newData)
@@ -42,6 +44,7 @@ const useUser = () => {
         } else {
             localStorage.setItem("userData", JSON.stringify(newData))
         }
+
         setTimeout(() => dispatch({ type: actions.LOADING, payload: false }), 1000)
         // setTimeout(() => useShowNotify("User added successfully", "success"), 3000)
         window.location.reload();
@@ -58,13 +61,14 @@ const useUser = () => {
     const getSingelUserBuilding = (id: string) => {
         dispatch({ type: actions.LOADING, payload: true })
         let storageData: any = localStorage.getItem('userData')
+
         let usersData: any = JSON.parse(storageData)
         usersData.map((data: any) => (id === data.id ? dispatch({ type: actions.GET_SINGEL_USER, payload: data }) : null));
         usersData.map((data: any) => (id === data.id ? dispatch({ type: actions.GET_BUILDINGS, payload: data.buildings }) : null));
         setTimeout(() => dispatch({ type: actions.LOADING, payload: false }), 1000)
     }
 
-    //func to get a singel user buildings
+    //func to get a single user buildings
     const addBuilding = (data: object) => {
         dispatch({ type: actions.LOADING, payload: true })
         let storageData: any = localStorage.getItem('userData')
@@ -84,7 +88,7 @@ const useUser = () => {
     }
 
 
-    //func to get a delete  buildings
+    //func to delete  buildings
     const deleteBuilding = () => {
         dispatch({ type: actions.LOADING, payload: true })
         let storageData: any = localStorage.getItem('userData')
@@ -106,6 +110,29 @@ const useUser = () => {
         getSingelUserBuilding(userdData.id)
     }
 
+    //func to  edit  buildings
+    const editBuilding = (data: object) => {
+        dispatch({ type: actions.LOADING, payload: true })
+        let storageData: any = localStorage.getItem('userData')
+        let allUersData: any = JSON.parse(storageData)
+        let userdData = store.singelUserData
+        let userBuiding = store.buildings
+
+        let filteredUserBuiding = userBuiding.filter((data: any) => store.idOfBuilding === data.id ? data === userBuiding : data)
+        dispatch({ type: actions.GET_BUILDINGS, payload: filteredUserBuiding })
+        userdData.buildings = filteredUserBuiding
+        userdData.buildings.push(data) 
+     
+        let dataToUpdate = allUersData.findIndex(((data: any) => data.id === userdData.id));
+        let updateData = allUersData[dataToUpdate].buildings = userdData
+        let filtered = allUersData.filter((data: any) => userdData.id === data.id ? data === userdData : data)
+        let nowSave = filtered.concat([updateData])
+
+        localStorage.setItem("userData", JSON.stringify(nowSave))
+        setTimeout(() => dispatch({ type: actions.LOADING, payload: false }), 1000)
+        getSingelUserBuilding(userdData.id)
+    }
+
     return {
         addUserModal,
         addBuildingModal,
@@ -116,6 +143,7 @@ const useUser = () => {
         addBuilding,
         deleteBuilding,
         editBuildingModal,
+        editBuilding ,
         loading: store.loading,
         userData: store.usersData,
         addUserModalState: store.addUserModal,
@@ -124,6 +152,7 @@ const useUser = () => {
         editBuildingModalState: store.editBuildingModal,
         singelUserData: store.singelUserData,
         userBuildings: store.buildings,
+        oneBuilding: store.oneBuilding,
         idOfBuilding: store.idOfBuilding,
     }
 }

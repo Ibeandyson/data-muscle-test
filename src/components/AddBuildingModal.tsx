@@ -8,7 +8,7 @@ import { countries } from "../global/countryList";
 type formProps = {
   id: string;
   name: string;
-  countery: string;
+  country: string;
 };
 
 const AddBuildingModal = () => {
@@ -18,7 +18,7 @@ const AddBuildingModal = () => {
   const [state, setState] = useState<formProps>({
     id: "",
     name: "",
-    countery: "",
+    country: "",
   });
 
   const closeModal = () => {
@@ -26,11 +26,11 @@ const AddBuildingModal = () => {
     setState({
       id: "",
       name: "",
-      countery: "",
+      country: "",
     });
   };
 
-  const { name, countery } = state;
+  const { name, country } = state;
 
   const onChangeHandler = (e: any) => {
     setState({ ...state, [e.target.name]: e.target.value });
@@ -62,7 +62,7 @@ const AddBuildingModal = () => {
           <Row>
             <Col sm="12" md="6">
               <Input
-                lable="First Name"
+                lable="Name"
                 className="shadow-lg p-3 mb-5 bg-body rounded  border border-success"
                 name="name"
                 value={name}
@@ -74,8 +74,8 @@ const AddBuildingModal = () => {
               <SelectInput
                 lable="Country"
                 className="shadow-lg p-3 mb-5 bg-body rounded  border border-success"
-                name="countery"
-                value={countery}
+                name="country"
+                value={country}
                 placeholder="Select Country"
                 children={
                   <>
