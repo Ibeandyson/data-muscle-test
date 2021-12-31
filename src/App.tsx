@@ -5,6 +5,7 @@ import {
   BuldingsCardList,
   AddUserModal,
   AddBuildingModal,
+  DeleteModal,
 } from "./components";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import useUser from "./hooks/useUser";
@@ -82,6 +83,7 @@ const App = () => {
       </Container>
       <AddUserModal />
       <AddBuildingModal />
+      <DeleteModal/>
     </div>
   );
 };

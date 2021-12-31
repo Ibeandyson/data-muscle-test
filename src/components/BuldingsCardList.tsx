@@ -1,11 +1,18 @@
 import React from "react";
-import { Card, ListGroup, Button } from "react-bootstrap";
+import {
+  Card,
+  ListGroup,
+  Button,
+  Col,
+  Row,
+  ButtonGroup,
+} from "react-bootstrap";
 import useUser from "../hooks/useUser";
 import useCreateId from "../hooks/useCreateId";
 
 const BuldingsCardList = () => {
   const { createId } = useCreateId();
-  const { userBuildings, addBuildingModal } = useUser();
+  const { userBuildings, addBuildingModal, deleteBuildingModal } = useUser();
 
   const openModal = () => {
     addBuildingModal(true);
@@ -15,7 +22,7 @@ const BuldingsCardList = () => {
   return (
     <div>
       <Card className="shadow-lg">
-        <Card.Header className="  d-flex justify-content-end">
+        <Card.Header className="d-flex justify-content-end">
           <Button
             onClick={() => openModal()}
             className="shadow-lg add__building__btn"
@@ -32,7 +39,22 @@ const BuldingsCardList = () => {
           ) : (
             <div>
               {userBuildings?.map((data: any) => (
-                <ListGroup.Item>{data?.name}</ListGroup.Item>
+                <ListGroup.Item>
+                  <Row>
+                    <Col sm="6">{data?.name}</Col>
+                    <Col sm="6">
+                      <ButtonGroup className="d-flex justify-content-end" aria-label="Basic example">
+                        <Button
+                          onClick={() => deleteBuildingModal(true, data.id)}
+                          variant="danger"
+                        >
+                          Delete
+                        </Button>
+                        <Button variant="success">Edit</Button>
+                      </ButtonGroup>
+                    </Col>
+                  </Row>
+                </ListGroup.Item>
               ))}
             </div>
           )}
