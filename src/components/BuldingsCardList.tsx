@@ -12,7 +12,12 @@ import useCreateId from "../hooks/useCreateId";
 
 const BuldingsCardList = () => {
   const { createId } = useCreateId();
-  const { userBuildings, addBuildingModal, deleteBuildingModal } = useUser();
+  const {
+    userBuildings,
+    addBuildingModal,
+    deleteBuildingModal,
+    editBuildingModal,
+  } = useUser();
 
   const openModal = () => {
     addBuildingModal(true);
@@ -43,14 +48,22 @@ const BuldingsCardList = () => {
                   <Row>
                     <Col sm="6">{data?.name}</Col>
                     <Col sm="6">
-                      <ButtonGroup className="d-flex justify-content-end" aria-label="Basic example">
+                      <ButtonGroup
+                        className="d-flex justify-content-end"
+                        aria-label="Basic example"
+                      >
                         <Button
                           onClick={() => deleteBuildingModal(true, data.id)}
                           variant="danger"
                         >
                           Delete
                         </Button>
-                        <Button variant="success">Edit</Button>
+                        <Button
+                          onClick={() => editBuildingModal(true, data.id)}
+                          variant="success"
+                        >
+                          Edit
+                        </Button>
                       </ButtonGroup>
                     </Col>
                   </Row>

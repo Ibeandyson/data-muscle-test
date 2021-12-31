@@ -6,6 +6,7 @@ import {
   AddUserModal,
   AddBuildingModal,
   DeleteModal,
+  EditBuildingModal,
 } from "./components";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import useUser from "./hooks/useUser";
@@ -73,7 +74,6 @@ const App = () => {
           <Col sm="12" md="4" lg="4">
             <div className="mb-5 mt-3">
               {state.length > 1 ? <BuldingsCardList /> : null}
-              
             </div>
           </Col>
           <Col sm="12" md="8" lg="8">
@@ -83,7 +83,8 @@ const App = () => {
       </Container>
       <AddUserModal />
       <AddBuildingModal />
-      <DeleteModal/>
+      <DeleteModal />
+      <EditBuildingModal />
     </div>
   );
 };

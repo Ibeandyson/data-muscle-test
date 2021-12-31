@@ -22,7 +22,13 @@ const useUser = () => {
     //func for opening and closing delete building modal
     const deleteBuildingModal = (state: boolean, id: string) => {
         dispatch({ type: actions.DELETE_BUILDING_MODAL, payload: state });
-        dispatch({ type: actions.ID_OF_BUILDING_TOBE_DELETED, payload: id });
+        dispatch({ type: actions.ID_OF_BUILDING, payload: id });
+    }
+
+      //func for opening and closing edit building modal
+      const editBuildingModal = (state: boolean, id: string) => {
+        dispatch({ type: actions.EDIT_BUILDING_MODAL, payload: state });
+        dispatch({ type: actions.ID_OF_BUILDING, payload: id });
     }
 
     //func to add user to loacl storage
@@ -66,11 +72,12 @@ const useUser = () => {
         let userdData = store.singelUserData
         let userBuiding = store.buildings
         userBuiding.push(data)
+
         let dataToUpdate = allUersData.findIndex(((data: any) => data.id == userdData.id));
         let updateData = allUersData[dataToUpdate].buildings = userdData
         let filtered = allUersData.filter((data: any) => userdData.id === data.id ? data === userdData : data)
         let nowSave = filtered.concat([updateData])
-        console.log(nowSave)
+
         localStorage.setItem("userData", JSON.stringify(nowSave))
         setTimeout(() => dispatch({ type: actions.LOADING, payload: false }), 1000)
         getSingelUserBuilding(userdData.id)
@@ -85,13 +92,10 @@ const useUser = () => {
         let userdData = store.singelUserData
         let userBuiding = store.buildings
 
-        let filteredUserBuiding = userBuiding.filter((data: any) => store.idOfBuildingToBeDeleted === data.id ? data === userBuiding : data)
+        let filteredUserBuiding = userBuiding.filter((data: any) => store.idOfBuilding === data.id ? data === userBuiding : data)
         dispatch({ type: actions.GET_BUILDINGS, payload: filteredUserBuiding })
         userdData.buildings = filteredUserBuiding
      
-
-        console.log( userdData )
-
         let dataToUpdate = allUersData.findIndex(((data: any) => data.id === userdData.id));
         let updateData = allUersData[dataToUpdate].buildings = userdData
         let filtered = allUersData.filter((data: any) => userdData.id === data.id ? data === userdData : data)
@@ -111,14 +115,16 @@ const useUser = () => {
         getSingelUserBuilding,
         addBuilding,
         deleteBuilding,
+        editBuildingModal,
         loading: store.loading,
         userData: store.usersData,
         addUserModalState: store.addUserModal,
         addBuildingModalState: store.addBuildingModal,
         deleteBuildingModalState: store.deleteBuildingModal,
+        editBuildingModalState: store.editBuildingModal,
         singelUserData: store.singelUserData,
         userBuildings: store.buildings,
-        idOfBuildingToBeDeleted: store.idOfBuildingToBeDeleted,
+        idOfBuilding: store.idOfBuilding,
     }
 }
 export default useUser

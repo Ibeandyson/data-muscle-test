@@ -5,7 +5,8 @@ const initial_state = {
     addUserModal: false,
     addBuildingModal: false,
     deleteBuildingModal: false,
-    idOfBuildingToBeDeleted: "",
+    editBuildingModal: false,
+    idOfBuilding: "",
     usersData: [],
     singelUserData: {},
     buildings: [],
@@ -34,10 +35,15 @@ const reducer = (state: any, action: any) => {
                 ...state,
                 deleteBuildingModal: action.payload,
             };
-        case actions.ID_OF_BUILDING_TOBE_DELETED:
+        case actions.EDIT_BUILDING_MODAL:
             return {
                 ...state,
-                idOfBuildingToBeDeleted: action.payload,
+                editBuildingModal: action.payload,
+            };
+        case actions.ID_OF_BUILDING:
+            return {
+                ...state,
+                idOfBuilding: action.payload,
             };
         case actions.GET_ALL_USERS:
             return {
@@ -49,11 +55,11 @@ const reducer = (state: any, action: any) => {
                 ...state,
                 singelUserData: action.payload,
             };
-            case actions.GET_BUILDINGS:
-                return {
-                    ...state,
-                    buildings: action.payload
-                };
+        case actions.GET_BUILDINGS:
+            return {
+                ...state,
+                buildings: action.payload
+            };
         default:
             return state;
     }
@@ -69,7 +75,8 @@ export const actions = {
     ADD_USER_MODAL: 'ADD_USER_MODAL',
     ADD_BUILDING_MODAL: 'ADD_BUILDING_MODAL',
     DELETE_BUILDING_MODAL: 'DELETE_BUILDING_MODAL',
-    ID_OF_BUILDING_TOBE_DELETED: 'ID_OF_BUILDING_TOBE_DELETED',
+    EDIT_BUILDING_MODAL: 'EDIT_BUILDING_MODAL',
+    ID_OF_BUILDING: 'ID_OF_BUILDING',
     GET_ALL_USERS: 'GET_ALL_USERS',
     GET_SINGEL_USER: 'GET_SINGEL_USER',
     GET_BUILDINGS: 'GET_BUILDINGS'

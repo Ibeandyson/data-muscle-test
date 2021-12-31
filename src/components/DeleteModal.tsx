@@ -6,25 +6,25 @@ interface Props {}
 const DeleteModal = (props: Props) => {
   const {
     deleteBuildingModalState,
-    idOfBuildingToBeDeleted,
+    idOfBuilding,
     deleteBuilding,
     deleteBuildingModal,
   } = useUser();
 
   const closeModal = () => {
-    deleteBuildingModal(false, idOfBuildingToBeDeleted);
+    deleteBuildingModal(false, idOfBuilding);
   };
 
   const onDelelte = () => {
     deleteBuilding();
-    deleteBuildingModal(false, idOfBuildingToBeDeleted);
+    deleteBuildingModal(false, idOfBuilding);
   };
 
   return (
     <div>
       <Modal show={deleteBuildingModalState} onHide={closeModal}>
         <Modal.Header closeButton>
-          <Modal.Title>Delete</Modal.Title>
+          <Modal.Title>Delete Building</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           Woohoo, you're you sure want to delete this building?
