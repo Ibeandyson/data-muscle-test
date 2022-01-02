@@ -7,6 +7,7 @@ import {
   AddBuildingModal,
   DeleteModal,
   EditBuildingModal,
+  MapView,
 } from "./components";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import useUser from "./hooks/useUser";
@@ -19,15 +20,17 @@ const App = () => {
     addUserModal,
     getAllUsers,
     getSingelUserBuilding,
-    singelUserData,
+    setFirstMapData,
     userData,
+    mapInfoData,
+    userBuildings,
   } = useUser();
 
   const openModal = () => {
     addUserModal(true);
     createId();
   };
-
+  
   const onChangeHandler = (e: any) => {
     setState(e.target.value);
     getSingelUserBuilding(e.target.value);
@@ -36,6 +39,12 @@ const App = () => {
   useEffect(() => {
     getAllUsers();
   }, []);
+
+  useEffect(() => {
+    if(userBuildings.length > 0 ){
+      setFirstMapData();
+    }    
+  }, [userBuildings]);
 
   return (
     <div className="page">
@@ -77,7 +86,9 @@ const App = () => {
             </div>
           </Col>
           <Col sm="12" md="8" lg="8">
-            <div className="mb-5 mt-3"></div>
+            <div className="mb-5 mt-3">
+              {mapInfoData !== null ? <MapView /> : null}
+            </div>
           </Col>
         </Row>
       </Container>

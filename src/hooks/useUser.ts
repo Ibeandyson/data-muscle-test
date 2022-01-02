@@ -1,6 +1,7 @@
-import { useState } from "react";
 import { actions, useDispatch, useStore } from "../context/userStore"
 import useNotify from "./useNotify"
+import axios from "axios";
+
 
 
 const useUser = () => {
@@ -25,8 +26,8 @@ const useUser = () => {
         dispatch({ type: actions.ID_OF_BUILDING, payload: id });
     }
 
-      //func for opening and closing edit building modal
-      const editBuildingModal = (state: boolean, id: string, data: object) => {
+    //func for opening and closing edit building modal
+    const editBuildingModal = (state: boolean, id: string, data: object) => {
         dispatch({ type: actions.EDIT_BUILDING_MODAL, payload: state });
         dispatch({ type: actions.ID_OF_BUILDING, payload: id });
         dispatch({ type: actions.GET_ONE_BUILDING, payload: data });
@@ -50,18 +51,59 @@ const useUser = () => {
         window.location.reload();
     }
 
+
+    //func to set first building data to map 
+    const setFirstMapData = () => {
+
+        let firstBuildingData = store.buildings[0]
+        let options: object = {
+            method: 'GET',
+            url: 'https://google-maps-geocoding-plus.p.rapidapi.com/geocode',
+            params: { address: firstBuildingData?.country, language: 'en' },
+            headers: {
+                'x-rapidapi-host': 'google-maps-geocoding-plus.p.rapidapi.com',
+                'x-rapidapi-key': '818efab5b0msh30dc169df07653ap1234e4jsnf5e33276dd62'
+            }
+        };
+
+        axios(options).then((response) => {
+            dispatch({ type: actions.MAP_INFO_DATA, payload: response.data?.response?.place })
+        }).catch(function (error) {
+            console.error(error);
+        });
+    }
+
+    //func to set building data to map 
+    const setMapData = (data: any) => {
+        let options: object = {
+            method: 'GET',
+            url: 'https://google-maps-geocoding-plus.p.rapidapi.com/geocode',
+            params: { address: data, language: 'en' },
+            headers: {
+                'x-rapidapi-host': 'google-maps-geocoding-plus.p.rapidapi.com',
+                'x-rapidapi-key': '818efab5b0msh30dc169df07653ap1234e4jsnf5e33276dd62'
+            }
+        };
+
+        axios(options).then((response) => {
+            dispatch({ type: actions.MAP_INFO_DATA, payload: response.data?.response?.place })
+        }).catch(function (error) {
+            console.error(error);
+        });
+    }
+
     //func to get all  user from loacl storage
     const getAllUsers = () => {
         let storageData: any = localStorage.getItem('userData')
         let userData: any = JSON.parse(storageData)
         dispatch({ type: actions.GET_ALL_USERS, payload: userData })
+
     }
 
     //func to get a singel user buildings
     const getSingelUserBuilding = (id: string) => {
         dispatch({ type: actions.LOADING, payload: true })
         let storageData: any = localStorage.getItem('userData')
-
         let usersData: any = JSON.parse(storageData)
         usersData.map((data: any) => (id === data.id ? dispatch({ type: actions.GET_SINGEL_USER, payload: data }) : null));
         usersData.map((data: any) => (id === data.id ? dispatch({ type: actions.GET_BUILDINGS, payload: data.buildings }) : null));
@@ -99,7 +141,7 @@ const useUser = () => {
         let filteredUserBuiding = userBuiding.filter((data: any) => store.idOfBuilding === data.id ? data === userBuiding : data)
         dispatch({ type: actions.GET_BUILDINGS, payload: filteredUserBuiding })
         userdData.buildings = filteredUserBuiding
-     
+
         let dataToUpdate = allUersData.findIndex(((data: any) => data.id === userdData.id));
         let updateData = allUersData[dataToUpdate].buildings = userdData
         let filtered = allUersData.filter((data: any) => userdData.id === data.id ? data === userdData : data)
@@ -121,8 +163,8 @@ const useUser = () => {
         let filteredUserBuiding = userBuiding.filter((data: any) => store.idOfBuilding === data.id ? data === userBuiding : data)
         dispatch({ type: actions.GET_BUILDINGS, payload: filteredUserBuiding })
         userdData.buildings = filteredUserBuiding
-        userdData.buildings.push(data) 
-     
+        userdData.buildings.push(data)
+
         let dataToUpdate = allUersData.findIndex(((data: any) => data.id === userdData.id));
         let updateData = allUersData[dataToUpdate].buildings = userdData
         let filtered = allUersData.filter((data: any) => userdData.id === data.id ? data === userdData : data)
@@ -143,7 +185,9 @@ const useUser = () => {
         addBuilding,
         deleteBuilding,
         editBuildingModal,
-        editBuilding ,
+        editBuilding,
+        setFirstMapData,
+        setMapData,
         loading: store.loading,
         userData: store.usersData,
         addUserModalState: store.addUserModal,
@@ -154,6 +198,7 @@ const useUser = () => {
         userBuildings: store.buildings,
         oneBuilding: store.oneBuilding,
         idOfBuilding: store.idOfBuilding,
+        mapInfoData: store.mapInfoData
     }
 }
 export default useUser

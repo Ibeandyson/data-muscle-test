@@ -11,6 +11,7 @@ const initial_state = {
     singelUserData: {},
     buildings: [],
     oneBuilding: {},
+    mapInfoData: null,
 };
 
 const reducer = (state: any, action: any) => {
@@ -66,6 +67,11 @@ const reducer = (state: any, action: any) => {
                 ...state,
                 oneBuilding: action.payload
             };
+        case actions.MAP_INFO_DATA:
+            return {
+                ...state,
+                mapInfoData: action.payload
+            };
         default:
             return state;
     }
@@ -87,4 +93,5 @@ export const actions = {
     GET_SINGEL_USER: 'GET_SINGEL_USER',
     GET_BUILDINGS: 'GET_BUILDINGS',
     GET_ONE_BUILDING: 'GET_ONE_BUILDING',
+    MAP_INFO_DATA: 'MAP_INFO_DATA',
 };

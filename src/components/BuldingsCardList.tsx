@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Card,
   ListGroup,
@@ -9,6 +8,8 @@ import {
 } from "react-bootstrap";
 import useUser from "../hooks/useUser";
 import useCreateId from "../hooks/useCreateId";
+import { AiFillEye, AiFillEdit, AiFillDelete } from "react-icons/ai";
+import {GiPositionMarker} from "react-icons/gi";
 
 const BuldingsCardList = () => {
   const { createId } = useCreateId();
@@ -17,6 +18,7 @@ const BuldingsCardList = () => {
     addBuildingModal,
     deleteBuildingModal,
     editBuildingModal,
+    setMapData,
   } = useUser();
 
   const openModal = () => {
@@ -46,23 +48,36 @@ const BuldingsCardList = () => {
               {userBuildings?.map((data: any) => (
                 <ListGroup.Item key={data.id}>
                   <Row>
-                    <Col sm="6">{data?.name}</Col>
+                    <Col sm="6">
+                      <p>
+                        <b>{data?.name}</b>
+                      </p>
+                      <p style={{fontSize: "12px"}}>
+                       <GiPositionMarker size={17} color="red"/> {data?.country}
+                      </p>
+                    </Col>
                     <Col sm="6">
                       <ButtonGroup
                         className="d-flex justify-content-end"
                         aria-label="Basic example"
                       >
                         <Button
+                          onClick={() => setMapData(data.country)}
+                          variant="success"
+                        >
+                          <AiFillEye color="white" />
+                        </Button>
+                        <Button
                           onClick={() => deleteBuildingModal(true, data.id)}
                           variant="danger"
                         >
-                          Delete
+                          <AiFillDelete color="white" />
                         </Button>
                         <Button
                           onClick={() => editBuildingModal(true, data.id, data)}
-                          variant="success"
+                          variant="warning"
                         >
-                          Edit
+                          <AiFillEdit color="white" />
                         </Button>
                       </ButtonGroup>
                     </Col>
