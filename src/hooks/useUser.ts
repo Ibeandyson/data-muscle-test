@@ -4,10 +4,12 @@ import axios from "axios";
 
 
 
+
 const useUser = () => {
     const store = useStore();
     const dispatch = useDispatch();
     const { useShowNotify } = useNotify()
+    const rapidapi_key   = process.env.REACT_APP_RAPIDAPI_KEY ;
 
 
     //func for opening and closing adding user modal
@@ -62,7 +64,7 @@ const useUser = () => {
             params: { address: firstBuildingData?.country, language: 'en' },
             headers: {
                 'x-rapidapi-host': 'google-maps-geocoding-plus.p.rapidapi.com',
-                'x-rapidapi-key': '818efab5b0msh30dc169df07653ap1234e4jsnf5e33276dd62'
+                'x-rapidapi-key': rapidapi_key
             }
         };
 
@@ -81,7 +83,7 @@ const useUser = () => {
             params: { address: data, language: 'en' },
             headers: {
                 'x-rapidapi-host': 'google-maps-geocoding-plus.p.rapidapi.com',
-                'x-rapidapi-key': '818efab5b0msh30dc169df07653ap1234e4jsnf5e33276dd62'
+                'x-rapidapi-key': rapidapi_key 
             }
         };
 
