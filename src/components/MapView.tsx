@@ -36,12 +36,14 @@ const MapView = () => {
     return marker;
   };
 
+  const map_key: any =  process.env.REACT_APP_GOOGLEMAP_KEY
+
   return (
     <div>
       <div style={{ height: "100vh", width: "100%" }}>
         <GoogleMapReact
           key={mapInfoData.google_place_id}
-          bootstrapURLKeys={{ key: "AIzaSyAzgNkNwqYRzs3g1C8aRfkCZoip_6R3u2Y" }}
+          bootstrapURLKeys={{ key: map_key }}
           defaultCenter={defaultcenter}
           defaultZoom={zoom}
           center={center}
